@@ -3,6 +3,10 @@ from .models import *
 
 # Register your models here.
 
+admin.site.site_header = 'Ashapura Administration'
+admin.site.site_title = 'Ashapura Admin'
+admin.site.index_title = 'Welcome to Ashapura Enterprise Admin'
+
 class vehicalDetailsAdmin(admin.ModelAdmin):
     # model = Categories
     list_per_page = 15 # No of records per page 
