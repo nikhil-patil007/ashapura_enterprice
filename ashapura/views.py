@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -93,3 +93,7 @@ def error_404(request, exception):
 # Function for the 500 error 
 def error_500(request, *args, **argv):
     return render(request,'500.html')
+
+# Return the Admin Page.
+def index(request):
+    return redirect('/admin/')
