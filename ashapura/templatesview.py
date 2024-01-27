@@ -62,6 +62,12 @@ def loginUser(request):
             request.session['userId'] = user_data.id
             request.session['userName'] = user_data.name
             return redirect('userpage')
+        elif  password ==  user_data.password:
+            user_data.password = make_password(password)
+            user_data.save()
+            request.session['userId'] = user_data.id
+            request.session['userName'] = user_data.name
+            return redirect('userpage')
         else:
             messages.error(request,"password doesn't match")
             return redirect('loginpage')
