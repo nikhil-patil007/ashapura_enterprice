@@ -65,6 +65,7 @@ def loginUser(request):
         elif  password ==  user_data.password:
             user_data.password = make_password(password)
             user_data.save()
+            
             request.session['userId'] = user_data.id
             request.session['userName'] = user_data.name
             return redirect('userpage')

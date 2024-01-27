@@ -17,4 +17,5 @@ class vehicalDetailsAdmin(admin.ModelAdmin):
     search_fields = ('new_vehicle_number',)
     
 admin.site.register(Vehicledetails,vehicalDetailsAdmin)
+
 admin.site.register(User)
