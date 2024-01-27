@@ -19,6 +19,5 @@ urlpatterns = [
     
     path('logout/', templatesview.logout, name='logout'),
     
-    path('api/uploadtodbusingcsv', views.uploadTheCSV),
     path('api/searchingvehicledata', views.searchVehicle),    
 ]

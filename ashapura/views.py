@@ -9,40 +9,6 @@ logger = logging.getLogger(__name__)
 from .models import *
 
 # Create your views here.
-
-# API for the add the data of vehicle using excel
-@csrf_exempt
-@api_view(['POST'])
-def uploadTheCSV(request):
-    try:
-        excel_file = request.FILES['csv_file']
-        df = pd.read_excel(excel_file)
-        for index, row in df.iterrows():
-            account_no = row['ACCOUNT NO']
-            customer_name = row['CUSTOMER NAME']
-            center = row['CENTRE']
-            executive = row['EXECUTIVE']
-            segment = row['SEGMENT']
-            product_name = row['PRODUCT NAME']
-            new_vehicle_number = row['NEW VEHICLE NUMBER']
-            engine_number = row['ENGINE NUMBER']
-            chasis_num = row['CHASIS NUMBER']
-            
-            newData = Vehicledetails.objects.create(
-                customer_name = customer_name,
-                account_no = account_no,
-                center = center,
-                executive = executive,
-                segment = segment,
-                product_name = product_name,
-                new_vehicle_number = new_vehicle_number,
-                engine_number = engine_number,
-                chasis_number = chasis_num
-            )
-        return Response({'message': 'Excel file uploaded successfully'}, status=201)
-    except Exception as e:
-        logger.error(f"User Register Exception : {str(e)} WHICH_API = {request.path}")
-        return Response({'message': str(e)}, status=500)
     
 # return the Json values
 def getTheVehicleData(data):
