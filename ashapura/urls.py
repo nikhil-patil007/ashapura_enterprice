@@ -1,8 +1,24 @@
 from django.urls import path
 from . import views
+from . import templatesview
 
 urlpatterns = [
-    path('',views.index),
-    path('api/uploadtodbusingcsv',views.uploadTheCSV),
-    path('api/searchingvehicledata',views.searchVehicle)
+    # Templates Path
+    path('loginpage/', templatesview.loginPage, name='loginpage'),
+    path('login/user/', templatesview.loginUser, name='loginUser'),
+    path('login/user/<str:uId>/delete/', templatesview.userDelete, name='userdelete'),
+    
+    path('', templatesview.userPage, name='userpage'),
+    
+    path('users/add/', templatesview.userformPage, name='userformpage'),
+    path('users/created/', templatesview.addUserFunctionality, name='usercreatefunction'),
+    
+    path('vehicles/', templatesview.vehiclePage, name='vehiclepage'),
+    path('vehicles/import/form/', templatesview.vehicleformPage, name='vehicleformpage'),
+    path('vehicles/import/creates/', templatesview.importFileFunction, name='importcsvdata'),
+    
+    path('logout/', templatesview.logout, name='logout'),
+    
+    path('api/uploadtodbusingcsv', views.uploadTheCSV),
+    path('api/searchingvehicledata', views.searchVehicle),    
 ]

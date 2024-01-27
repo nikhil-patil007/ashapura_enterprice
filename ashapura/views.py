@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-import pandas as pd
 import logging
 
 logger = logging.getLogger(__name__)
@@ -88,12 +87,13 @@ def searchVehicle(request):
     
 # Function for the 404 error 
 def error_404(request, exception):
-    return render(request, 'err.html')
+    return render(request, 'errors/err.html')
 
 # Function for the 500 error 
 def error_500(request, *args, **argv):
-    return render(request,'500.html')
+    return render(request,'errors/500.html')
+
 
 # Return the Admin Page.
 def index(request):
-    return redirect('/admin/')
+    return render(request,'adminpages/index.html')

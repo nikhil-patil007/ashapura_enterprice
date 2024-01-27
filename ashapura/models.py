@@ -2,6 +2,13 @@ from django.db import models
 
 # Create your models here.
 
+
+class User(models.Model):
+    name = models.CharField( max_length=255,null=True,blank=True)
+    username = models.CharField( max_length=255,null=True,blank=True)
+    password = models.CharField( max_length=255,null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 class Vehicledetails(models.Model):
     customer_name = models.CharField( max_length=255,null=True,blank=True)
     account_no = models.CharField( max_length=255,null=True,blank=True)
@@ -13,7 +20,6 @@ class Vehicledetails(models.Model):
     engine_number = models.CharField( max_length=255,null=True,blank=True)
     chasis_number = models.CharField( max_length=255,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
         db_table = "AshaPura_Vehicle_details"

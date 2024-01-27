@@ -1,0 +1,23 @@
+{% load static %}
+<!-- Left Sidebar -->
+<aside id="leftsidebar" class="sidebar">
+    <div class="tab-content">
+        <div class="tab-pane stretchRight active" id="dashboard">
+            <div class="menu">
+                <ul class="list">
+                    <li class="{% if currentPage == 'user' %}active open{% endif %}">
+                        <a href="{% url 'userpage' %}">
+                            <i class="zmdi zmdi-account"></i><span>Users</span>
+                        </a>
+                    </li>
+                    <li class="{% if currentPage == 'vehicle' %}active open{% endif %}">
+                        <a href="{% url 'vehiclepage' %}">
+                            <i class="zmdi zmdi-collection-plus"></i><span>Vehicles</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</aside>
+<!-- Left Sidebar -->
