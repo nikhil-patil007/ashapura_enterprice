@@ -24,7 +24,7 @@ def getTheVehicleData(data):
         "new_vehicle_number": data.new_vehicle_number if data.new_vehicle_number else '',
         "product_name": data.product_name if data.product_name else '',
         "segment": data.segment if data.segment else '',
-        "updated_at": data.updated_at if data.updated_at else '',
+        # "updated_at": data.updated_at if data.updated_at else '',
     }
     return vehicalObject
 
