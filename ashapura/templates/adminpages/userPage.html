@@ -68,12 +68,12 @@
                 {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
-                        {% if message.tags == 'error' %}
-                        <p class='alert alert-danger' role='alert'> 
-                        {% else %}
-                        <p class='alert alert-{{ message.tags }}' role='alert'>
-                        {% endif %}
-                                {{ message }}
+                            {% if message.tags == 'error' %}
+                                <p class='alert alert-danger' role='alert'> 
+                            {% else %}
+                                <p class='alert alert-{{ message.tags }}' role='alert'>
+                            {% endif %}
+                            {{ message }}
                             </p>
                         {% endfor %}
                     </ul>

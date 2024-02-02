@@ -65,6 +65,19 @@
             <!-- Nav tabs -->
             <!-- Tab panes -->
             <div class="tab-content m-t-10">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                                <p class='alert alert-danger' role='alert'> 
+                            {% else %}
+                                <p class='alert alert-{{ message.tags }}' role='alert'>
+                            {% endif %}
+                            {{ message }}
+                            </p>
+                        {% endfor %}
+                    </ul>
+                {% endif %} 
                 <div class="tab-pane table-responsive active" id="All">
                     <table id="productsData">
                         <thead>
@@ -80,12 +93,12 @@
                                 <th>engine_number</th>
                                 <th>chasis_number</th>
                                 <th>created_at</th>
-                                {% comment %} <th>Action</th> {% endcomment %}
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for i in vehiclesdata %}
-                            <tr align="center">
+                            <tr>
                                 <td><span class="list-name">{{i.id}}</span></td>
                                 <td>{{i.customer_name}}</td>
                                 <td>{{i.account_no}}</td>
@@ -97,11 +110,11 @@
                                 <td>{{i.engine_number}}</td>
                                 <td>{{i.chasis_number}}</td>
                                 <td>{{i.created_at}}</td>
-                                {% comment %} <td>
-                                    <button href="#" class="btn btn-danger btn-round" onclick="showSweetAlert('Url')">
+                                <td>
+                                    <button href="#" class="btn btn-danger btn-round" onclick="showSweetAlert('{% url 'deleteData' vId=i.id %}')">
                                         <i class="zmdi zmdi-delete"></i>
                                     </button>
-                                </td> {% endcomment %}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

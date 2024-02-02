@@ -16,8 +16,10 @@ urlpatterns = [
     path('vehicles/', templatesview.vehiclePage, name='vehiclepage'),
     path('vehicles/import/form/', templatesview.vehicleformPage, name='vehicleformpage'),
     path('vehicles/import/creates/', templatesview.importFileFunction, name='importcsvdata'),
+    path('vehicles/<str:vId>/delete/', templatesview.deleteData, name='deleteData'),
     
     path('logout/', templatesview.logout, name='logout'),
     
     path('api/searchingvehicledata', views.searchVehicle),    
+    path('api/login/User', views.loginUser),    
 ]

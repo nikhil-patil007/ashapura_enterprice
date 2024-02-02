@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password,check_password
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -28,7 +29,7 @@ def getTheVehicleData(data):
     }
     return vehicalObject
 
-@csrf_exempt
+# Vehicle search API functionality
 @api_view(['POST'])
 def searchVehicle(request):
     try:
@@ -37,20 +38,49 @@ def searchVehicle(request):
         dataList = []
         
         if not vehicle_number:
-            return Response({"message": "Data searched","data": dataList},status=200)
+            return Response({"response_status": 1,"message": "Data searched","data": dataList},status=200)
         
         searchedData = Vehicledetails.objects.filter(new_vehicle_number__icontains=vehicle_number)
         
         for item in searchedData:
             v_details = getTheVehicleData(item)
             dataList.append(v_details)
-        return Response({'message':"Data searched",'data': dataList},status=200)
+        return Response({"response_status": 1,"message":"Data searched",'data': dataList},status=200)
     except KeyError as e:
-        return Response({'message': "Invalid key in the request body."}, status=400)
+        return Response({"response_status": 0,"message": "Invalid key in the request body."}, status=400)
     except Exception as e:
         logger.error(f"User Register Exception : {str(e)}")
-        return Response({'message': str(e)}, status=500)
-    
+        return Response({"response_status": 0,"message": str(e)}, status=500)
+   
+@api_view(['POST'])
+def loginUser(request):
+    try:
+        data = request.data
+        username = data['username']
+        password = data['password']
+        
+        if not username or not password:
+            return Response({"response_status": 0,"message": "Please Provide appropriate username or password",},status=400)
+        getUser = User.objects.filter(username=username)
+        if len(getUser) > 0:
+            userData = User.objects.get(id=getUser[0].id)
+            if check_password(password, userData.password):
+                context = {
+                    "id" : userData.id,
+                    "name" : userData.name,
+                    "username" : userData.username,
+                }
+                return Response({"response_status" : 1,"message" : "success","userData" : context},status=200)
+            return Response({"response_status": 0,"message": "username or password is not match",},status=400)
+        return Response({"response_status": 0,"message": "username or password is not match",},status=400)
+    except KeyError as e:
+        return Response({"response_status": 0,"message": "Invalid key in the request body."}, status=400)
+    except Exception as e:
+        logger.error(f"User Register Exception : {str(e)}")
+        return Response({"response_status": 0,"message": str(e)}, status=500)
+            
+                
+
 # Function for the 404 error 
 def error_404(request, exception):
     return render(request, 'errors/err.html')

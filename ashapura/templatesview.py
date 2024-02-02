@@ -4,47 +4,69 @@ from django.contrib import messages
 from .models import *
 import pandas as pd
 
+# Login Page Path
 def loginPage(request):
     if 'userId' in request.session:
         return redirect('userpage')
     return render(request, 'adminpages/Login.html')
 
+# User Page Path
 def userPage(request):
-    if 'userId' in request.session:
-        userList = User.objects.exclude(id=request.session['userId'])
-        context = {
-            "currentPage": "user",
-            "userdata" : userList 
-        }
-        return render(request, 'adminpages/userPage.html',context)
-    return redirect('loginpage')
+    try:
+        if 'userId' in request.session:
+            userList = User.objects.exclude(id=request.session['userId'])
+            context = {
+                "currentPage": "user",
+                "userdata" : userList 
+            }
+            return render(request, 'adminpages/userPage.html',context)
+        return redirect('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect('loginpage')
 
+# User form Page Path
 def userformPage(request):
-    if 'userId' in request.session:
-        context = {
-            "currentPage": "user",
-        }
-        return render(request, 'adminpages/userform.html',context)
-    return redirect('loginpage')
+    try:
+        if 'userId' in request.session:
+            context = {
+                "currentPage": "user",
+            }
+            return render(request, 'adminpages/userform.html',context)
+        return redirect('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect('loginpage')
 
+# Vehicle dat Page Path
 def vehiclePage(request):
-    if 'userId' in request.session:
-        vehicleList = Vehicledetails.objects.all() 
-        context = {
-            "currentPage": "vehicle",
-            "vehiclesdata" : vehicleList 
-        }
-        return render(request, 'adminpages/vehiclePage.html',context)
-    return redirect('loginpage')
+    try:
+        if 'userId' in request.session:
+            vehicleList = Vehicledetails.objects.all() 
+            context = {
+                "currentPage": "vehicle",
+                "vehiclesdata" : vehicleList 
+            }
+            return render(request, 'adminpages/vehiclePage.html',context)
+        return redirect('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect('loginpage')
 
+# Vehicle form Page Path
 def vehicleformPage(request):
-    if 'userId' in request.session:
-        context = {
-            "currentPage": "vehicle",
-        }
-        return render(request, 'adminpages/vehicleform.html',context)
-    return redirect('loginpage')
-    
+    try:
+        if 'userId' in request.session:
+            context = {
+                "currentPage": "vehicle",
+            }
+            return render(request, 'adminpages/vehicleform.html',context)
+        return redirect('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect('loginpage')
+
+# Login User functionality Path  
 def loginUser(request):
     try: 
         username = request.POST.get('username', '')
@@ -69,76 +91,106 @@ def loginUser(request):
         messages.error(request, f"something is wrong.")
         return('loginpage')
 
+# User delete functionality Path
 def userDelete(request,uId):
-    if 'userId' in request.session:
-        try:
-            checkUser = User.objects.get(id=uId)
-            checkUser.delete()
-            messages.success(request, f"User deleted.")
-            return redirect('userpage')
-        except:
-            messages.error(request, f"something is wrong.")
-            return redirect('userpage')
-    return('loginpage')
-
-
-def addUserFunctionality(request):
-    if 'userId' in request.session:
-        fullname = request.POST.get('fullname','')
-        username = request.POST.get('username','')
-        password = request.POST.get('password','')
-        userList = User.objects.filter(username=username)
-        if userList.exists():
-            messages.error(request, f"User Already exists.")
-            return redirect("userformpage")
-        userList = User.objects.create(
-            name = fullname, 
-            username = username,         
-            password = make_password(password),         
-        )
-        messages.success(request, f"User added successfully.")
+    try:
+        if 'userId' in request.session:
+            try:
+                checkUser = User.objects.get(id=uId)
+                checkUser.delete()
+                messages.success(request, f"User deleted.")
+                return redirect('userpage')
+            except:
+                messages.error(request, f"something is wrong.")
+                return redirect('userpage')
+        return('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
         return redirect("userpage")
-    return('loginpage')
 
+# Data delete functionality Path
+def deleteData(request,vId):
+    try:
+        if 'userId' in request.session:
+            try:
+                vehicledata = Vehicledetails.objects.get(id=vId)
+                vehicledata.delete()
+                messages.success(request, f"Data deleted.")
+                return redirect('vehiclepage')
+            except:
+                messages.error(request, f"something is wrong.")
+                return redirect('userpage')
+        return('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect('vehiclepage')
 
+# Add Admin functionality Path
+def addUserFunctionality(request):
+    try:
+        if 'userId' in request.session:
+            fullname = request.POST.get('fullname','')
+            username = request.POST.get('username','')
+            password = request.POST.get('password','')
+            userList = User.objects.filter(username=username)
+            if userList.exists():
+                messages.error(request, f"User Already exists.")
+                return redirect("userformpage")
+            userList = User.objects.create(
+                name = fullname, 
+                username = username,         
+                password = make_password(password),         
+            )
+            messages.success(request, f"User added successfully.")
+            return redirect("userpage")
+        return('loginpage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect("userpage")
+
+# Import CSV file functionality Path
 def importFileFunction(request):
-    csv_file = request.FILES.get('csv_file','')
-    
-    df = pd.read_excel(csv_file)
-    
-    for index, row in df.iterrows():
-        account_no = row['ACCOUNT NO']
-        customer_name = row['CUSTOMER NAME']
-        center = row['CENTRE']
-        executive = row['EXECUTIVE']
-        segment = row['SEGMENT']
-        product_name = row['PRODUCT NAME']
-        new_vehicle_number = row['NEW VEHICLE NUMBER']
-        engine_number = row['ENGINE NUMBER']
-        chasis_num = row['CHASIS NUMBER']
+    try:
+        csv_file = request.FILES.get('csv_file','')
         
-        oldvalue = Vehicledetails.objects.filter(
-            new_vehicle_number = new_vehicle_number,
-            engine_number = engine_number,
-            chasis_number = chasis_num
-        )
+        df = pd.read_excel(csv_file)
         
-        if not oldvalue.exists():
-            newData = Vehicledetails.objects.create(
-                customer_name = customer_name,
-                account_no = account_no,
-                center = center,
-                executive = executive,
-                segment = segment,
-                product_name = product_name,
+        for index, row in df.iterrows():
+            account_no = row['ACCOUNT NO']
+            customer_name = row['CUSTOMER NAME']
+            center = row['CENTRE']
+            executive = row['EXECUTIVE']
+            segment = row['SEGMENT']
+            product_name = row['PRODUCT NAME']
+            new_vehicle_number = row['NEW VEHICLE NUMBER']
+            engine_number = row['ENGINE NUMBER']
+            chasis_num = row['CHASIS NUMBER']
+            
+            oldvalue = Vehicledetails.objects.filter(
                 new_vehicle_number = new_vehicle_number,
                 engine_number = engine_number,
                 chasis_number = chasis_num
-            )    
-    messages.success(request, f"Data Imported successfully.")
-    return redirect('vehicleformpage')
+            )
+            
+            if not oldvalue.exists():
+                newData = Vehicledetails.objects.create(
+                    customer_name = customer_name,
+                    account_no = account_no,
+                    center = center,
+                    executive = executive,
+                    segment = segment,
+                    product_name = product_name,
+                    new_vehicle_number = new_vehicle_number,
+                    engine_number = engine_number,
+                    chasis_number = chasis_num
+                )    
+        messages.success(request, f"Data Imported successfully.")
+        return redirect('vehiclepage')
+    except:
+        messages.danger(request, f"Something is wrong.")
+        return redirect("vehiclepage")
         
-
+# Logout functionality Path
 def logout(request):
     try:
         del request.session['userId']
