@@ -18,4 +18,4 @@ class vehicalDetailsAdmin(admin.ModelAdmin):
     
 admin.site.register(Vehicledetails,vehicalDetailsAdmin)
 
-admin.site.register(User)
+# admin.site.register(User)
