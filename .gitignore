@@ -2,3 +2,7 @@ env/
 .env
 static_logs/
 ashapura/migrations/
+
+
+server.crt
+server.key

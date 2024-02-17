@@ -33,6 +33,8 @@ if not os.path.exists(LOGGING_DIR):
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+SECURE_SSL_REDIRECT = True
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG', default=False, cast=bool)
@@ -52,7 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ashapura'
+    'ashapura',
+    'sslserver',
 ]
 
 MIDDLEWARE = [

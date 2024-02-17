@@ -22,7 +22,7 @@ def userPage(request):
             return render(request, 'adminpages/userPage.html',context)
         return redirect('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect('loginpage')
 
 # User form Page Path
@@ -35,7 +35,7 @@ def userformPage(request):
             return render(request, 'adminpages/userform.html',context)
         return redirect('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect('loginpage')
 
 # Vehicle dat Page Path
@@ -50,7 +50,7 @@ def vehiclePage(request):
             return render(request, 'adminpages/vehiclePage.html',context)
         return redirect('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect('loginpage')
 
 # Vehicle form Page Path
@@ -63,7 +63,7 @@ def vehicleformPage(request):
             return render(request, 'adminpages/vehicleform.html',context)
         return redirect('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect('loginpage')
 
 # Login User functionality Path  
@@ -105,7 +105,7 @@ def userDelete(request,uId):
                 return redirect('userpage')
         return('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect("userpage")
 
 # Data delete functionality Path
@@ -122,7 +122,7 @@ def deleteData(request,vId):
                 return redirect('userpage')
         return('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect('vehiclepage')
 
 # Add Admin functionality Path
@@ -145,7 +145,7 @@ def addUserFunctionality(request):
             return redirect("userpage")
         return('loginpage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect("userpage")
 
 # Import CSV file functionality Path
@@ -187,7 +187,7 @@ def importFileFunction(request):
         messages.success(request, f"Data Imported successfully.")
         return redirect('vehiclepage')
     except:
-        messages.danger(request, f"Something is wrong.")
+        messages.error(request, f"Something is wrong.")
         return redirect("vehiclepage")
         
 # Logout functionality Path
